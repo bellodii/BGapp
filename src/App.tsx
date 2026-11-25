@@ -13,6 +13,8 @@ import SinPermisoPage from '@/pages/SinPermisoPage'
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'))
 const ObrasPage = lazy(() => import('@/pages/ObrasPage'))
 const ObraDetailPage = lazy(() => import('@/pages/ObraDetailPage'))
+const MaquinariasPage = lazy(() => import('@/pages/MaquinariasPage'))
+const MaquinariaDetailPage = lazy(() => import('@/pages/MaquinariaDetailPage'))
 const EmpleadosPage = lazy(() => import('@/pages/EmpleadosPage'))
 const EmpleadoDetailPage = lazy(() => import('@/pages/EmpleadoDetailPage'))
 const AsistenciaPage = lazy(() => import('@/pages/AsistenciaPage'))
@@ -70,6 +72,10 @@ export default function App() {
               <Route element={<ProtectedRoute modulo="obras" />}>
                 <Route path="obras" element={<ObrasPage />} />
                 <Route path="obras/:id" element={<ObraDetailPage />} />
+              </Route>
+              <Route element={<ProtectedRoute modulo="maquinarias" />}>
+                <Route path="maquinarias" element={<MaquinariasPage />} />
+                <Route path="maquinarias/:id" element={<MaquinariaDetailPage />} />
               </Route>
               <Route element={<ProtectedRoute modulo="empleados" />}>
                 <Route path="empleados" element={<EmpleadosPage />} />

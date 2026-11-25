@@ -16,6 +16,7 @@ export const MODULOS: { k: string; label: string }[] = [
   { k: 'asistencias', label: 'Asistencias' },
   { k: 'deudas', label: 'Deudas' },
   { k: 'liquidaciones', label: 'Sueldos / liquidaciones' },
+  { k: 'maquinarias', label: 'Maquinarias' },
   { k: 'auditoria', label: 'Historial (auditoría)' },
 ]
 const ACCIONES = [

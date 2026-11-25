@@ -5,6 +5,7 @@ import { MESES, formatDate } from './dates'
 export const ENTIDADES: Record<string, string> = {
   profile: 'Administradores', permiso_admin: 'Permisos', obra: 'Obras', avance_obra: 'Avances de obras',
   empleado: 'Empleados', asistencia: 'Asistencias', deuda_empleado: 'Deudas', movimiento_deuda: 'Movimientos de deuda', liquidacion: 'Liquidaciones',
+  maquinaria: 'Maquinarias', maquinaria_horas: 'Horas de maquinarias', maquinaria_service: 'Services de maquinarias',
 }
 
 export interface Lookups {

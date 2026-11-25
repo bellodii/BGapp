@@ -43,3 +43,20 @@ export function addDays(iso: string, days: number): string {
   const dt = new Date(Date.UTC(y, m - 1, d + days))
   return `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth() + 1)}-${pad(dt.getUTCDate())}`
 }
+
+/** Suma meses a una fecha ISO (si el día no existe en el mes destino, usa el último día). */
+export function addMonths(iso: string, months: number): string {
+  const [y, m, d] = iso.split('-').map(Number)
+  const total = (m - 1) + months
+  const yy = y + Math.floor(total / 12)
+  const mm = ((total % 12) + 12) % 12 + 1
+  const dd = Math.min(d, daysInMonth(yy, mm))
+  return toIso(yy, mm, dd)
+}
+
+/** Diferencia en días (b - a) entre dos fechas ISO. */
+export function diffDays(a: string, b: string): number {
+  const [y1, m1, d1] = a.split('-').map(Number)
+  const [y2, m2, d2] = b.split('-').map(Number)
+  return Math.round((Date.UTC(y2, m2 - 1, d2) - Date.UTC(y1, m1 - 1, d1)) / 86400000)
+}

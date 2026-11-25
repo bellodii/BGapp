@@ -2,7 +2,7 @@ export type Rol = 'super_admin' | 'admin'
 
 export type Modulo =
   | 'dashboard' | 'obras' | 'avances' | 'empleados'
-  | 'asistencias' | 'deudas' | 'liquidaciones' | 'auditoria'
+  | 'asistencias' | 'deudas' | 'liquidaciones' | 'auditoria' | 'maquinarias'
 
 export type Accion = 'ver' | 'crear' | 'editar' | 'eliminar'
 

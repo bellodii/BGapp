@@ -10,9 +10,24 @@ const cors = {
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } })
 
-const MODULOS = ['dashboard','obras','avances','empleados','asistencias','deudas','liquidaciones','auditoria']
+const MODULOS = ['dashboard','obras','avances','empleados','asistencias','deudas','liquidaciones','maquinarias','auditoria']
 
-Deno.serve(async (req) => {
+interface PermisoIn {
+  modulo?: string
+  puede_ver?: boolean
+  puede_crear?: boolean
+  puede_editar?: boolean
+  puede_eliminar?: boolean
+}
+interface BodyIn {
+  email?: string
+  password?: string
+  nombre?: string
+  apellido?: string
+  permisos?: PermisoIn[]
+}
+
+Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors })
   if (req.method !== 'POST') return json({ error: 'Método no permitido' }, 405)
 
@@ -29,10 +44,13 @@ Deno.serve(async (req) => {
   if (esSuper !== true) return json({ error: 'Solo el super administrador puede crear administradores' }, 403)
 
   // 3) Validar entrada.
-  const { email, password, nombre, apellido, permisos } = await req.json().catch(() => ({}))
+  const body: BodyIn = await req.json().catch(() => ({}))
+  const { email, password, nombre, apellido, permisos } = body
   if (!email || !password || !nombre || !apellido) return json({ error: 'Faltan datos' }, 400)
   if (typeof password !== 'string' || password.length < 12) return json({ error: 'La contraseña debe tener al menos 12 caracteres' }, 400)
-  const permisosOk = (Array.isArray(permisos) ? permisos : []).filter((p: any) => MODULOS.includes(p?.modulo))
+  const permisosOk = (Array.isArray(permisos) ? permisos : []).filter(
+    (p) => !!p?.modulo && MODULOS.includes(p.modulo),
+  )
 
   // 4) Con service_role (solo aquí, en el servidor) crear el usuario en Auth.
   const admin = createClient(url, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } })
@@ -44,9 +62,9 @@ Deno.serve(async (req) => {
 
   // El trigger handle_new_user ya creó el perfil (admin, inactivo). Lo habilitamos y cargamos permisos.
   const { error: errPerfil } = await admin.from('profiles').update({ activo: true, nombre, apellido }).eq('id', id)
-  let errPerm = null
+  let errPerm: { message: string } | null = null
   if (!errPerfil && permisosOk.length) {
-    const rows = permisosOk.map((p: any) => ({
+    const rows = permisosOk.map((p) => ({
       profile_id: id, modulo: p.modulo,
       puede_ver: !!p.puede_ver, puede_crear: !!p.puede_crear,
       puede_editar: !!p.puede_editar, puede_eliminar: !!p.puede_eliminar,

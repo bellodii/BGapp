@@ -199,3 +199,49 @@ export interface PermisoAdmin {
   puede_editar: boolean
   puede_eliminar: boolean
 }
+
+// ---------- Maquinarias ----------
+export type TipoMaquinaria = 'topadora' | 'tractor' | 'camion' | 'retroexcavadora' | 'excavadora' | 'motoniveladora' | 'cargadora' | 'otro'
+
+export interface MaquinariaResumen {
+  id: string
+  tipo: TipoMaquinaria
+  marca: string
+  modelo: string
+  identificador: string | null
+  anio: number | null
+  horas_iniciales: number
+  horas_por_dia: number
+  dias_por_semana: number
+  intervalo_horas: number
+  intervalo_meses: number | null
+  activa: boolean
+  notas: string | null
+  created_at: string
+  horas_registradas: number
+  horas_7d: number
+  horas_30d: number
+  ultimo_service_fecha: string | null
+  ultimo_service_horometro: number | null
+  ultimo_service_descripcion: string | null
+}
+
+export interface MaquinariaHoras {
+  id: string
+  maquinaria_id: string
+  fecha: string
+  horas: number
+  observaciones: string | null
+  registrado_por: string | null
+  created_at: string
+}
+
+export interface MaquinariaService {
+  id: string
+  maquinaria_id: string
+  fecha: string
+  horometro: number
+  descripcion: string | null
+  registrado_por: string | null
+  created_at: string
+}

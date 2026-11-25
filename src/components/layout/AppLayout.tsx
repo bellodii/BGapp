@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
-  CalendarCheck, HardHat, History, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, Users, Wallet, X,
+  CalendarCheck, HardHat, History, Truck, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, Users, Wallet, X,
   type LucideIcon,
 } from 'lucide-react'
 import clsx from 'clsx'
@@ -14,6 +14,7 @@ interface NavItem { to: string; label: string; icon: LucideIcon; modulo?: Modulo
 const NAV: NavItem[] = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, modulo: 'dashboard', end: true },
   { to: '/obras', label: 'Obras', icon: HardHat, modulo: 'obras' },
+  { to: '/maquinarias', label: 'Maquinarias', icon: Truck, modulo: 'maquinarias' },
   { to: '/empleados', label: 'Empleados', icon: Users, modulo: 'empleados' },
   { to: '/asistencia', label: 'Asistencia', icon: CalendarCheck, modulo: 'asistencias' },
   { to: '/sueldos', label: 'Sueldos', icon: Wallet, modulo: 'liquidaciones' },
